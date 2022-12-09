@@ -13,6 +13,9 @@ builder.Services.AddAutoMapper(typeof(ExpenseProfile));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options => options.AddPolicy(name: "ExpensesOrigins", policy =>
+    policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader()
+));
 
 var app = builder.Build();
 
@@ -22,6 +25,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("ExpensesOrigins");
 
 app.UseHttpsRedirection();
 

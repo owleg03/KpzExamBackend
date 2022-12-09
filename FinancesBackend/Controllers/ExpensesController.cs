@@ -64,6 +64,22 @@ public class ExpensesController : ControllerBase
         await _context.SaveChangesAsync();
         return Ok(storedExpense);
     }
+    
+    // PUT: api/Expenses/3
+    [HttpPut("{id}/{category}")]
+    public async Task<ActionResult<Expense>> PutExpense(int id, Category category)
+    {
+        var storedExpense = await _context.Expenses.FindAsync(id);
+        if (storedExpense == null)
+        {
+            return NotFound("Could not find this expense.");
+        }
+        
+        storedExpense.Category = category;
+        await _context.SaveChangesAsync();
+        
+        return Ok(storedExpense);
+    }
 
     // POST: api/Expenses
     [HttpPost]
